@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    index
+{% endblock %}
+
+{% block content %}
+
+    <div class="card shadow">
+
+        <div class="card-body">
+
+            <table class="table table-striped text-center align-middle">
+                <thead class="table_secondary">
+                <tr>
+                    <th>Subject</th>
+                    <th>Tracking Code</th>
+                    <th>Category</th>
+                    <th>Tags</th>
+                    <th>Max Reply date</th>
+                    <th>Priority</th>
+                    <th>Created By</th>
+                    <th>Created At</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for ticket in tickets %}
+                    <tr>
+                        <td class="text-start">
+                            <a href="#" class="btn-link text-decoration-none">
+                                {{ ticket.subject }}</a>
+                        </td>
+
+
+                        <td>{{ ticket.tracking_code }}</td>
+                        <td>{{ ticket.category }}</td>
+
+                        <td>
+
+                        <span class="badge bg-warning">
+                                {{ ticket.tags.all|length }}
+                                </span>
+                            {% for tag in ticket.tags.all|slice:"2" %}
+
+                                <span class="secondary">{{ tag.name }}</span>
+                            {% empty %}
+                                <span class="text-muted">_</span>
+                            {% endfor %}
+                        </td>
+
+
+                        <td>{{ ticket.max_reply_date|date:"Y/m/d" }}</td>
+
+                        <td><span class="badge"
+                                  style="background-color: {{ ticket.get_priority_color }}">{{ ticket.priority }}
+                                    </span>
+                        </td>
+                        <td>{{ ticket.created_by }}</td>
+                        <td>{{ ticket.created_at|date:"Y/m/d h:m" }}</td>
+
+                        <td>
+
+                            <a href=" #" class="btn btn-danger">
+                                delete
+{#                                <i class="bi bi-pencil-square"></i>#}
+                            </a>
+                            <a href="#" class="btn btn-primary">
+                                edit
+{#                                <i class="bi bi-trash"></i>#}
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot></tfoot>
+            </table>
+
+        </div>
+    </div>
+
+{% endblock %}
